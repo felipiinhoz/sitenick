@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Qual notebook comprar?</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,33 +27,79 @@
       --blue-ink:#1d4bb5;
     }
     *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:var(--ink);font-family:Nunito,system-ui,sans-serif;line-height:1.45}
-    .page{width:min(760px,calc(100% - 32px));margin:0 auto;padding:46px 0 58px}
-    h1{font-size:clamp(2rem,6vw,3rem);line-height:1.05;letter-spacing:-.05em;margin:0 0 10px;font-weight:800}
+    html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--ink);
+      font-family:Nunito,system-ui,-apple-system,sans-serif;
+      line-height:1.45;
+      padding-top:env(safe-area-inset-top,0px);
+      padding-bottom:env(safe-area-inset-bottom,0px);
+    }
+    .page{width:min(760px,calc(100% - 32px));margin:0 auto;padding:46px 0 60px}
+    h1{font-size:clamp(1.9rem,5.5vw,3rem);line-height:1.08;letter-spacing:-.04em;margin:0 0 10px;font-weight:800}
     .intro{max-width:560px;margin:0;color:var(--muted);font-size:1.05rem}
     
     /* Box Guia Rapido */
-    .note{margin:24px 0 30px;border-radius:18px;padding:18px 20px;background:#f3efff;border:1px solid #e1d8ff;color:#3b2d7a}
+    .note{margin:24px 0 28px;border-radius:18px;padding:18px 20px;background:#f3efff;border:1px solid #e1d8ff;color:#3b2d7a}
     .note-head{font-weight:800;font-size:1rem;margin-bottom:12px;color:#2a1a70}
     .note-picks{display:grid;gap:10px}
     .note-row{display:flex;align-items:flex-start;gap:10px;font-size:.92rem;line-height:1.42}
+    .note-row.clickable{cursor:pointer;border-radius:10px;padding:5px 7px;margin:-5px -7px;transition:background .15s ease}
+    .note-row.clickable:hover{background:rgba(115,87,233,0.09)}
     .note-badge{display:inline-block;padding:3px 9px;border-radius:999px;font-size:.7rem;font-weight:800;white-space:nowrap;margin-top:1px;text-transform:uppercase;letter-spacing:.02em}
     .note-badge.present{background:var(--green);color:var(--green-ink)}
     .note-badge.future{background:var(--purple);color:var(--purple-ink)}
     .note-badge.games{background:var(--blue);color:var(--blue-ink)}
+    .note-arrow{font-size:.82rem;color:var(--accent);font-weight:800;margin-left:4px}
 
-    .list-title{font-size:1rem;margin:0 0 12px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+    /* Barra de Filtros */
+    .filter-wrapper{margin:0 0 14px}
+    .list-header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+    .list-title{font-size:.92rem;margin:0;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+    .filter-nav{display:flex;gap:7px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+    .filter-nav::-webkit-scrollbar{display:none}
+    .filter-chip{
+      border:1px solid var(--line);
+      background:var(--card);
+      color:var(--muted);
+      font-family:inherit;
+      font-size:.82rem;
+      font-weight:700;
+      padding:6px 13px;
+      border-radius:999px;
+      cursor:pointer;
+      white-space:nowrap;
+      transition:all .15s ease;
+    }
+    .filter-chip:hover{color:var(--ink);border-color:#cfcae3}
+    .filter-chip.active{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 3px 10px #7357e930}
+
+    /* Lista de Notebooks (Layout Desktop) */
     .list{display:grid;gap:13px}
-    .item{display:grid;grid-template-columns:76px 1fr auto;gap:16px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:13px 15px;transition:transform .15s ease,box-shadow .15s ease}
+    .item{
+      display:grid;
+      grid-template-columns:76px 1fr auto;
+      gap:16px;
+      align-items:center;
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:14px 16px;
+      transition:transform .15s ease,box-shadow .15s ease;
+      scroll-margin-top:20px;
+    }
     .item.best{border:2px solid #10b981;box-shadow:0 8px 20px #10b98118}
     .item.future-pick{border:2px solid var(--accent);box-shadow:0 8px 20px #7357e91a}
-    .picture{border:0;background:#f9f8fd;border-radius:11px;height:62px;padding:5px;cursor:zoom-in}
+    .picture{border:0;background:#f9f8fd;border-radius:12px;height:66px;width:76px;padding:5px;cursor:zoom-in;display:flex;align-items:center;justify-content:center}
     .picture img{width:100%;height:100%;object-fit:contain}
+    .item-content{min-width:0}
     .name{font-weight:800;font-size:1.05rem}
     .sub{font-size:.82rem;color:var(--muted);margin-top:1px}
     
     /* Specs Pills */
-    .mini-specs{display:flex;flex-wrap:wrap;gap:4px;margin:7px 0 2px}
+    .mini-specs{display:flex;flex-wrap:wrap;gap:4px;margin:7px 0 3px}
     .mini-specs span{padding:2px 7px;border:1px solid var(--line);border-radius:999px;background:#fbfbfe;color:#5a566d;font-size:.68rem;font-weight:700;line-height:1.25;white-space:nowrap}
     
     .reason{font-size:.9rem;margin:7px 0 0;line-height:1.35}
@@ -65,12 +111,13 @@
     .label.games{background:var(--blue);color:var(--blue-ink)}
     .label.meh{background:var(--yellow);color:var(--yellow-ink)}
     .label.bad{background:var(--red);color:var(--red-ink)}
-    .right{text-align:right;min-width:108px}
-    .price{display:block;font-weight:800;font-size:1rem}
+    
+    .right{text-align:right;min-width:112px}
+    .price{display:block;font-weight:800;font-size:1.02rem}
     .store{font-size:.72rem;color:var(--muted);line-height:1.2;display:block}
 
-    /* Secao Comparativo Presente vs Futuro */
-    .compare-section{margin:36px 0 10px}
+    /* Secao Comparativo Presente vs Futuro (Desktop) */
+    .compare-section{margin:38px 0 12px}
     .compare-title{font-size:1.25rem;font-weight:800;letter-spacing:-.02em;margin:0 0 6px;color:var(--ink)}
     .compare-intro{color:var(--muted);font-size:.92rem;margin:0 0 14px}
     .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
@@ -91,27 +138,113 @@
     .extra strong{color:var(--ink)}
     footer{margin-top:34px;font-size:.78rem;color:var(--muted)}
     
-    .image-modal{border:0;border-radius:18px;padding:16px;background:#fff;max-width:min(860px,92vw);max-height:90vh;box-shadow:0 22px 70px #0008}
+    /* Modal de Imagem */
+    .image-modal{border:0;border-radius:20px;padding:16px;background:#fff;max-width:min(860px,94vw);max-height:90vh;box-shadow:0 22px 70px #0008}
     .image-modal::backdrop{background:#000b}
-    .image-modal img{display:block;max-width:100%;max-height:76vh;object-fit:contain;border-radius:10px}
+    .image-modal img{display:block;max-width:100%;max-height:76vh;object-fit:contain;border-radius:12px}
     .image-modal form{display:flex;justify-content:flex-end;margin-bottom:8px}
-    .image-modal button{border:0;border-radius:999px;padding:7px 12px;background:var(--bg);font:inherit;font-weight:800;cursor:pointer}
+    .image-modal button{border:0;border-radius:999px;padding:7px 14px;background:var(--bg);font:inherit;font-weight:800;cursor:pointer}
     .image-modal p{margin:9px 0 0;font-weight:800;text-align:center}
 
-    @media(max-width:680px){
+    /* Botao Voltar ao Topo */
+    .back-to-top{
+      position:fixed;
+      bottom:max(18px,env(safe-area-inset-bottom,18px));
+      right:18px;
+      width:44px;
+      height:44px;
+      border-radius:50%;
+      background:var(--accent);
+      color:#fff;
+      border:none;
+      font-size:1.15rem;
+      font-weight:800;
+      cursor:pointer;
+      box-shadow:0 6px 18px rgba(115,87,233,0.38);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      opacity:0;
+      pointer-events:none;
+      transform:translateY(8px);
+      transition:opacity .2s ease,transform .2s ease;
+      z-index:90;
+    }
+    .back-to-top.visible{opacity:1;pointer-events:auto;transform:translateY(0)}
+    .back-to-top:active{transform:scale(0.92)}
+
+    /* ========================================================
+       ADAPTACOES MOBILE RESPONSIVAS (@media)
+       ======================================================== */
+    @media (max-width: 680px){
       .compare-grid{grid-template-columns:1fr}
     }
-    @media(max-width:560px){
-      .page{padding-top:30px}
-      .item{grid-template-columns:62px 1fr;gap:11px;padding:12px}
-      .picture{height:56px}
-      .right{grid-column:2;text-align:left;display:flex;gap:8px;align-items:baseline}
-      .price{font-size:.95rem}
-      .store{display:inline}
-      .reason{font-size:.86rem}
-      .mini-specs{gap:3px}
-      .mini-specs span{font-size:.64rem;padding:2px 5px}
-      .note-row{flex-direction:column;gap:3px}
+    @media (max-width: 600px){
+      .page{width:100%;padding:max(18px,env(safe-area-inset-top,18px)) 16px max(34px,env(safe-area-inset-bottom,34px))}
+      h1{font-size:1.85rem;margin-bottom:6px}
+      .intro{font-size:.95rem}
+      .note{padding:14px 16px;border-radius:16px;margin:18px 0 22px}
+      .note-head{font-size:.92rem;margin-bottom:9px}
+      .note-row{flex-direction:column;gap:3px;font-size:.88rem}
+      .note-badge{font-size:.66rem;padding:2px 7px}
+      
+      .list-header{margin-bottom:8px}
+      .list-title{font-size:.84rem}
+      .filter-chip{padding:6px 11px;font-size:.78rem}
+
+      /* Card do notebook no mobile: estrutura elegante em bloco */
+      .item{
+        display:grid;
+        grid-template-columns:64px 1fr;
+        grid-template-rows:auto auto;
+        gap:10px 12px;
+        align-items:start;
+        padding:13px;
+        border-radius:16px;
+      }
+      .picture{
+        grid-column:1;
+        grid-row:1;
+        width:64px;
+        height:64px;
+        border-radius:10px;
+      }
+      .item-content{
+        grid-column:2;
+        grid-row:1;
+      }
+      .name{font-size:.98rem}
+      .sub{font-size:.78rem}
+      .mini-specs{gap:3px;margin:5px 0 2px}
+      .mini-specs span{font-size:.63rem;padding:2px 6px}
+      .reason{font-size:.85rem;margin-top:6px}
+      .label{font-size:.68rem;padding:2px 7px}
+      
+      /* Faixa de preco integrada no rodape do card mobile */
+      .right{
+        grid-column:1 / -1;
+        grid-row:2;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        background:#f6f5fc;
+        border-radius:11px;
+        padding:9px 12px;
+        text-align:left;
+        margin-top:2px;
+        min-width:0;
+      }
+      .price{font-size:1.12rem;order:2;text-align:right}
+      .store{order:1;font-size:.74rem;display:block}
+
+      .compare-section{margin-top:30px}
+      .compare-title{font-size:1.15rem}
+      .compare-intro{font-size:.86rem}
+      .compare-card{padding:15px;border-radius:16px}
+      .compare-bullets{font-size:.83rem;gap:6px;padding-left:16px}
+      
+      .image-modal{padding:14px;border-radius:16px}
+      .image-modal img{max-height:65vh}
     }
   </style>
 </head>
@@ -120,34 +253,46 @@
     <h1>Qual notebook comprar?</h1>
     <p class="intro">Uma listinha simples, do que eu mais recomendo até o que eu evitaria.</p>
 
-    <!-- Guia Rapido: Presente vs Futuro vs Jogos -->
+    <!-- Guia Rapido: Presente vs Futuro vs Jogos (com clique para pular no item) -->
     <div class="note">
       <div class="note-head">Guia rápido para decidir sem erro:</div>
       <div class="note-picks">
-        <div class="note-row">
+        <div class="note-row clickable" onclick="document.querySelector('#item-acer').scrollIntoView({behavior:'smooth'})">
           <span class="note-badge present">Para o presente</span>
-          <span><strong>Acer Aspire 5 (R$ 3.039):</strong> O melhor custo-benefício para hoje. Tela IPS de alta qualidade (ótima para filmes e estudos) e muito rápido gastando menos.</span>
+          <span><strong>Acer Aspire 5 (R$ 3.039):</strong> O melhor custo-benefício para hoje. Tela IPS de alta qualidade (ótima para filmes e estudos) e muito rápido gastando menos. <span class="note-arrow">↓</span></span>
         </div>
-        <div class="note-row">
+        <div class="note-row clickable" onclick="document.querySelector('#item-dell').scrollIntoView({behavior:'smooth'})">
           <span class="note-badge future">Para o futuro</span>
-          <span><strong>Dell Inspiron 15 (R$ 3.496):</strong> O mais durável. Peças modernas (13ª geração + DDR5), 2 slots 100% livres para upgrade fácil, tela de 120 Hz e já vem com Windows pronto.</span>
+          <span><strong>Dell Inspiron 15 (R$ 3.496):</strong> O mais durável. Peças modernas (13ª geração + DDR5), 2 slots 100% livres para upgrade fácil, tela de 120 Hz e já vem com Windows pronto. <span class="note-arrow">↓</span></span>
         </div>
-        <div class="note-row">
+        <div class="note-row clickable" onclick="document.querySelector('#item-asus-ryzen').scrollIntoView({behavior:'smooth'})">
           <span class="note-badge games">Para jogos leves</span>
-          <span><strong>ASUS Vivobook Ryzen (R$ 3.219):</strong> O melhor desempenho gráfico de fábrica (Radeon Vega 8) para rodar joguinhos sem engasgar.</span>
+          <span><strong>ASUS Vivobook Ryzen (R$ 3.219):</strong> O melhor desempenho gráfico de fábrica (Radeon Vega 8) para rodar joguinhos sem engasgar. <span class="note-arrow">↓</span></span>
         </div>
       </div>
     </div>
 
-    <p class="list-title">Minha ordem</p>
+    <!-- Barra de Filtros (Todos, Presente, Futuro, Jogos) -->
+    <div class="filter-wrapper">
+      <div class="list-header">
+        <p class="list-title">Minha ordem</p>
+        <nav class="filter-nav" aria-label="Filtrar por recomendação">
+          <button class="filter-chip active" type="button" data-filter="all">Todos (6)</button>
+          <button class="filter-chip" type="button" data-filter="present">★ Presente</button>
+          <button class="filter-chip" type="button" data-filter="future">🚀 Futuro</button>
+          <button class="filter-chip" type="button" data-filter="games">🎮 Jogos</button>
+        </nav>
+      </div>
+    </div>
+
     <section class="list" aria-label="Ranking de notebooks">
 
       <!-- 1. Acer Aspire 5 (Melhor para o presente) -->
-      <article class="item best">
+      <article class="item best" id="item-acer" data-category="present all">
         <button class="picture" type="button" data-image="images/acer.jpg" data-caption="Acer Aspire 5" aria-label="Ampliar foto do Acer Aspire 5">
           <img src="images/acer.jpg" alt="Acer Aspire 5" onerror="if(this.src.includes('images/')) this.src=this.src.replace('images/','');">
         </button>
-        <div>
+        <div class="item-content">
           <div class="name">1. Acer Aspire 5</div>
           <div class="sub">A515-45-R1AC</div>
           <div class="mini-specs">
@@ -166,11 +311,11 @@
       </article>
 
       <!-- 2. ASUS Vivobook 15 Ryzen -->
-      <article class="item">
+      <article class="item" id="item-asus-ryzen" data-category="games all">
         <button class="picture" type="button" data-image="images/asus-vivobook.jpg" data-caption="ASUS Vivobook 15 M1502YA-NJ611" aria-label="Ampliar foto do ASUS Vivobook">
           <img src="images/asus-vivobook.jpg" alt="ASUS Vivobook 15" onerror="if(this.src.includes('images/')) this.src=this.src.replace('images/','');">
         </button>
-        <div>
+        <div class="item-content">
           <div class="name">2. ASUS Vivobook 15</div>
           <div class="sub">M1502YA-NJ611</div>
           <div class="mini-specs">
@@ -189,11 +334,11 @@
       </article>
 
       <!-- 3. Dell Inspiron 15 (Melhor para o futuro) -->
-      <article class="item future-pick">
+      <article class="item future-pick" id="item-dell" data-category="future all">
         <button class="picture" type="button" data-image="images/dell.jpg" data-caption="Dell Inspiron 15" aria-label="Ampliar foto do Dell Inspiron">
           <img src="images/dell.jpg" alt="Dell Inspiron 15" onerror="if(this.src.includes('images/')) this.src=this.src.replace('images/','');">
         </button>
-        <div>
+        <div class="item-content">
           <div class="name">3. Dell Inspiron 15</div>
           <div class="sub">DC15-I51334U-A50</div>
           <div class="mini-specs">
@@ -212,11 +357,11 @@
       </article>
 
       <!-- 4. Samsung Galaxy Book4 -->
-      <article class="item">
+      <article class="item" id="item-galaxy" data-category="all">
         <button class="picture" type="button" data-image="images/galaxybook.webp" data-caption="Samsung Galaxy Book4" aria-label="Ampliar foto do Samsung Galaxy Book4">
           <img src="images/galaxybook.webp" alt="Samsung Galaxy Book4" onerror="if(this.src.includes('images/')) this.src=this.src.replace('images/','');">
         </button>
-        <div>
+        <div class="item-content">
           <div class="name">4. Samsung Galaxy Book4</div>
           <div class="sub">versão i3</div>
           <div class="mini-specs">
@@ -234,11 +379,11 @@
       </article>
 
       <!-- 5. ASUS Vivobook 15 Intel -->
-      <article class="item">
+      <article class="item" id="item-asus-intel" data-category="all">
         <button class="picture" type="button" data-image="images/asus-vivobook.jpg" data-caption="ASUS Vivobook 15 X1504VA-NJ1741" aria-label="Ampliar foto do ASUS Vivobook">
           <img src="images/asus-vivobook.jpg" alt="ASUS Vivobook 15" onerror="if(this.src.includes('images/')) this.src=this.src.replace('images/','');">
         </button>
-        <div>
+        <div class="item-content">
           <div class="name">5. ASUS Vivobook 15</div>
           <div class="sub">X1504VA-NJ1741</div>
           <div class="mini-specs">
@@ -256,11 +401,11 @@
       </article>
 
       <!-- 6. Lenovo IdeaPad 1 -->
-      <article class="item">
+      <article class="item" id="item-lenovo" data-category="all">
         <button class="picture" type="button" data-image="images/lenovo.webp" data-caption="Lenovo IdeaPad 1" aria-label="Ampliar foto do Lenovo IdeaPad">
           <img src="images/lenovo.webp" alt="Lenovo IdeaPad 1" onerror="if(this.src.includes('images/')) this.src=this.src.replace('images/','');">
         </button>
-        <div>
+        <div class="item-content">
           <div class="name">6. Lenovo IdeaPad 1</div>
           <div class="sub">Ryzen 5 7520U</div>
           <div class="mini-specs">
@@ -328,6 +473,9 @@
     <footer>Lista feita para facilitar a escolha. Clique nas fotos se quiser ver maior.</footer>
   </main>
 
+  <!-- Botao Flutuante Voltar ao Topo no Mobile -->
+  <button id="back-to-top" class="back-to-top" type="button" aria-label="Voltar ao topo">↑</button>
+
   <!-- Modal de Zoom da Imagem -->
   <dialog class="image-modal" id="image-modal" aria-labelledby="image-caption">
     <form method="dialog"><button type="submit">Fechar ×</button></form>
@@ -336,6 +484,7 @@
   </dialog>
 
   <script>
+    // Modal de zoom
     const modal = document.querySelector('#image-modal');
     const img = document.querySelector('#modal-image');
     const caption = document.querySelector('#image-caption');
@@ -352,6 +501,36 @@
     
     modal.addEventListener('click', e => {
       if (e.target === modal) modal.close();
+    });
+
+    // Filtros de recomendacao
+    document.querySelectorAll('.filter-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        const filter = chip.dataset.filter;
+        document.querySelectorAll('.item').forEach(item => {
+          if (filter === 'all' || (item.dataset.category && item.dataset.category.includes(filter))) {
+            item.style.display = '';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // Botao Voltar ao Topo no Mobile
+    const backToTop = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 320) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+    }, { passive: true });
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   </script>
 </body>
