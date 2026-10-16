@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Qual notebook comprar?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#f7f7fb;
+      --card:#fff;
+      --ink:#29263e;
+      --muted:#77738b;
+      --line:#e7e5ef;
+      --accent:#7357e9;
+      --green:#ddf7e8;
+      --green-ink:#127144;
+      --yellow:#fff2cf;
+      --yellow-ink:#8b5c00;
+      --red:#ffe1e5;
+      --red-ink:#a52442;
+      --purple:#ede9fe;
+      --purple-ink:#5b21b6;
+      --blue:#e0eaff;
+      --blue-ink:#1d4bb5;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:Nunito,system-ui,sans-serif;line-height:1.45}
+    .page{width:min(760px,calc(100% - 32px));margin:0 auto;padding:46px 0 58px}
+    h1{font-size:clamp(2rem,6vw,3rem);line-height:1.05;letter-spacing:-.05em;margin:0 0 10px;font-weight:800}
+    .intro{max-width:560px;margin:0;color:var(--muted);font-size:1.05rem}
+    
+    /* Box Guia Rapido */
+    .note{margin:24px 0 30px;border-radius:18px;padding:18px 20px;background:#f3efff;border:1px solid #e1d8ff;color:#3b2d7a}
+    .note-head{font-weight:800;font-size:1rem;margin-bottom:12px;color:#2a1a70}
+    .note-picks{display:grid;gap:10px}
+    .note-row{display:flex;align-items:flex-start;gap:10px;font-size:.92rem;line-height:1.42}
+    .note-badge{display:inline-block;padding:3px 9px;border-radius:999px;font-size:.7rem;font-weight:800;white-space:nowrap;margin-top:1px;text-transform:uppercase;letter-spacing:.02em}
+    .note-badge.present{background:var(--green);color:var(--green-ink)}
+    .note-badge.future{background:var(--purple);color:var(--purple-ink)}
+    .note-badge.games{background:var(--blue);color:var(--blue-ink)}
+
+    .list-title{font-size:1rem;margin:0 0 12px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+    .list{display:grid;gap:13px}
+    .item{display:grid;grid-template-columns:76px 1fr auto;gap:16px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:13px 15px;transition:transform .15s ease,box-shadow .15s ease}
+    .item.best{border:2px solid #10b981;box-shadow:0 8px 20px #10b98118}
+    .item.future-pick{border:2px solid var(--accent);box-shadow:0 8px 20px #7357e91a}
+    .picture{border:0;background:#f9f8fd;border-radius:11px;height:62px;padding:5px;cursor:zoom-in}
+    .picture img{width:100%;height:100%;object-fit:contain}
+    .name{font-weight:800;font-size:1.05rem}
+    .sub{font-size:.82rem;color:var(--muted);margin-top:1px}
+    
+    /* Specs Pills */
+    .mini-specs{display:flex;flex-wrap:wrap;gap:4px;margin:7px 0 2px}
+    .mini-specs span{padding:2px 7px;border:1px solid var(--line);border-radius:999px;background:#fbfbfe;color:#5a566d;font-size:.68rem;font-weight:700;line-height:1.25;white-space:nowrap}
+    
+    .reason{font-size:.9rem;margin:7px 0 0;line-height:1.35}
+    .labels{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+    .label{display:inline-block;padding:3px 8px;border-radius:999px;font-size:.72rem;font-weight:800}
+    .label.present{background:var(--green);color:var(--green-ink)}
+    .label.future{background:var(--purple);color:var(--purple-ink)}
+    .label.good{background:var(--green);color:var(--green-ink)}
+    .label.games{background:var(--blue);color:var(--blue-ink)}
+    .label.meh{background:var(--yellow);color:var(--yellow-ink)}
+    .label.bad{background:var(--red);color:var(--red-ink)}
+    .right{text-align:right;min-width:108px}
+    .price{display:block;font-weight:800;font-size:1rem}
+    .store{font-size:.72rem;color:var(--muted);line-height:1.2;display:block}
+
+    /* Secao Comparativo Presente vs Futuro */
+    .compare-section{margin:36px 0 10px}
+    .compare-title{font-size:1.25rem;font-weight:800;letter-spacing:-.02em;margin:0 0 6px;color:var(--ink)}
+    .compare-intro{color:var(--muted);font-size:.92rem;margin:0 0 14px}
+    .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .compare-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px 20px;display:flex;flex-direction:column}
+    .compare-card.present-card{border-color:#bbf7d0;background:linear-gradient(180deg,#f3fdf7 0%,#fff 28%)}
+    .compare-card.future-card{border-color:#ddd6fe;background:linear-gradient(180deg,#f7f4ff 0%,#fff 28%)}
+    .compare-header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+    .compare-header h3{margin:0;font-size:1.15rem;font-weight:800}
+    .compare-badge{display:inline-block;padding:3px 9px;border-radius:999px;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.03em}
+    .compare-badge.present{background:var(--green);color:var(--green-ink)}
+    .compare-badge.future{background:var(--purple);color:var(--purple-ink)}
+    .compare-price{font-weight:800;font-size:1.05rem;color:var(--ink)}
+    .compare-tagline{margin:0 0 10px;font-size:.88rem;color:var(--ink)}
+    .compare-bullets{margin:0;padding-left:18px;font-size:.86rem;color:var(--ink);line-height:1.5;display:grid;gap:8px}
+    .compare-bullets strong{color:#1a172c}
+
+    .extra{margin:30px 0 0;color:var(--muted);font-size:.88rem;line-height:1.5}
+    .extra strong{color:var(--ink)}
+    footer{margin-top:34px;font-size:.78rem;color:var(--muted)}
+    
+    .image-modal{border:0;border-radius:18px;padding:16px;background:#fff;max-width:min(860px,92vw);max-height:90vh;box-shadow:0 22px 70px #0008}
+    .image-modal::backdrop{background:#000b}
+    .image-modal img{display:block;max-width:100%;max-height:76vh;object-fit:contain;border-radius:10px}
+    .image-modal form{display:flex;justify-content:flex-end;margin-bottom:8px}
+    .image-modal button{border:0;border-radius:999px;padding:7px 12px;background:var(--bg);font:inherit;font-weight:800;cursor:pointer}
+    .image-modal p{margin:9px 0 0;font-weight:800;text-align:center}
+
+    @media(max-width:680px){
+      .compare-grid{grid-template-columns:1fr}
+    }
+    @media(max-width:560px){
+      .page{padding-top:30px}
+      .item{grid-template-columns:62px 1fr;gap:11px;padding:12px}
+      .picture{height:56px}
+      .right{grid-column:2;text-align:left;display:flex;gap:8px;align-items:baseline}
+      .price{font-size:.95rem}
+      .store{display:inline}
+      .reason{font-size:.86rem}
+      .mini-specs{gap:3px}
+      .mini-specs span{font-size:.64rem;padding:2px 5px}
+      .note-row{flex-direction:column;gap:3px}
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <h1>Qual notebook comprar?</h1>
+    <p class="intro">Uma listinha simples, do que eu mais recomendo até o que eu evitaria.</p>
+
+    <!-- Guia Rapido: Presente vs Futuro vs Jogos -->
+    <div class="note">
+      <div class="note-head">Guia rápido para decidir sem erro:</div>
+      <div class="note-picks">
+        <div class="note-row">
+          <span class="note-badge present">Para o presente</span>
+          <span><strong>Acer Aspire 5 (R$ 3.039):</strong> O melhor custo-benefício para hoje. Tela IPS de alta qualidade (ótima para filmes e estudos) e muito rápido gastando menos.</span>
+        </div>
+        <div class="note-row">
+          <span class="note-badge future">Para o futuro</span>
+          <span><strong>Dell Inspiron 15 (R$ 3.496):</strong> O mais durável. Peças modernas (13ª geração + DDR5), 2 slots 100% livres para upgrade fácil, tela de 120 Hz e já vem com Windows pronto.</span>
+        </div>
+        <div class="note-row">
+          <span class="note-badge games">Para jogos leves</span>
+          <span><strong>ASUS Vivobook Ryzen (R$ 3.219):</strong> O melhor desempenho gráfico de fábrica (Radeon Vega 8) para rodar joguinhos sem engasgar.</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="list-title">Minha ordem</p>
+    <section class="list" aria-label="Ranking de notebooks">
+
+      <!-- 1. Acer Aspire 5 (Melhor para o presente) -->
+      <article class="item best">
+        <button class="picture" type="button" data-image="images/acer.jpg" data-caption="Acer Aspire 5" aria-label="Ampliar foto do Acer Aspire 5">
+          <img src="images/acer.jpg" alt="Acer Aspire 5" onerror="if(this.src.includes('images/')) this.src=this.src.replace('images/','');">
+        </button>
+        <div>
+          <div class="name">1. Acer Aspire 5</div>
+          <div class="sub">A515-45-R1AC</div>
+          <div class="mini-specs">
+            <span>Ryzen 5</span><span>8 GB RAM</span><span>256 GB SSD</span><span>Full HD IPS</span>
+          </div>
+          <p class="reason">A melhor compra para o presente. Tela IPS com cores vivas para estudar e assistir filmes gastando o mínimo possível.</p>
+          <div class="labels">
+            <span class="label present">★ Melhor para o presente</span>
+            <span class="label good">Mais equilibrado</span>
+          </div>
+        </div>
+        <div class="right">
+          <span class="price">R$ 3.039</span>
+          <span class="store">Amazon no Pix<br>vem com Linux</span>
+        </div>
+      </article>
+
+      <!-- 2. ASUS Vivobook 15 Ryzen -->
+      <article class="item">
+        <button class="picture" type="button" data-image="images/asus-vivobook.jpg" data-caption="ASUS Vivobook 15 M1502YA-NJ611" aria-label="Ampliar foto do ASUS Vivobook">
+          <img src="images/asus-vivobook.jpg" alt="ASUS Vivobook 15" onerror="if(this.src.includes('images/')) this.src=this.src.replace('images/','');">
+        </button>
+        <div>
+          <div class="name">2. ASUS Vivobook 15</div>
+          <div class="sub">M1502YA-NJ611</div>
+          <div class="mini-specs">
+            <span>Ryzen 7</span><span>8 GB RAM</span><span>512 GB SSD</span><span>Full HD</span>
+          </div>
+          <p class="reason">Melhor se quiser jogar alguma coisa. Processador potente de 8 núcleos e os melhores gráficos de fábrica para jogos casuais.</p>
+          <div class="labels">
+            <span class="label games">Melhor para jogos leves</span>
+            <span class="label good">Ryzen 7 (8 núcleos)</span>
+          </div>
+        </div>
+        <div class="right">
+          <span class="price">R$ 3.219</span>
+          <span class="store">Mercado Livre no Pix<br>vem com Linux</span>
+        </div>
+      </article>
+
+      <!-- 3. Dell Inspiron 15 (Melhor para o futuro) -->
+      <article class="item future-pick">
+        <button class="picture" type="button" data-image="images/dell.jpg" data-caption="Dell Inspiron 15" aria-label="Ampliar foto do Dell Inspiron">
+          <img src="images/dell.jpg" alt="Dell Inspiron 15" onerror="if(this.src.includes('images/')) this.src=this.src.replace('images/','');">
+        </button>
+        <div>
+          <div class="name">3. Dell Inspiron 15</div>
+          <div class="sub">DC15-I51334U-A50</div>
+          <div class="mini-specs">
+            <span>Core i5 (13ª Geração)</span><span>8 GB DDR5</span><span>512 GB SSD</span><span>Full HD 120 Hz</span>
+          </div>
+          <p class="reason">A melhor compra para o futuro. Peças modernas (13ª geração + DDR5), 2 slots livres para upgrade fácil sem peças soldadas, tela fluida de 120 Hz e já com Windows.</p>
+          <div class="labels">
+            <span class="label future">🚀 Melhor para o futuro</span>
+            <span class="label good">Windows já instalado</span>
+          </div>
+        </div>
+        <div class="right">
+          <span class="price">R$ 3.496</span>
+          <span class="store">Mercado Livre no Pix<br>já vem pronto</span>
+        </div>
+      </article>
+
+      <!-- 4. Samsung Galaxy Book4 -->
+      <article class="item">
+        <button class="picture" type="button" data-image="images/galaxybook.webp" data-caption="Samsung Galaxy Book4" aria-label="Ampliar foto do Samsung Galaxy Book4">
+          <img src="images/galaxybook.webp" alt="Samsung Galaxy Book4" onerror="if(this.src.includes('images/')) this.src=this.src.replace('images/','');">
+        </button>
+        <div>
+          <div class="name">4. Samsung Galaxy Book4</div>
+          <div class="sub">versão i3</div>
+          <div class="mini-specs">
+            <span>Core i3</span><span>8 GB RAM</span><span>256 GB SSD</span><span>Full HD IPS</span>
+          </div>
+          <p class="reason">É leve, fino e bonito, mas o processador i3 é o mais fraco e pelo preço os de cima entregam muito mais.</p>
+          <div class="labels">
+            <span class="label meh">Só se gostar muito dele</span>
+          </div>
+        </div>
+        <div class="right">
+          <span class="price">R$ 3.399</span>
+          <span class="store">Amazon no Pix<br>já vem com Windows</span>
+        </div>
+      </article>
+
+      <!-- 5. ASUS Vivobook 15 Intel -->
+      <article class="item">
+        <button class="picture" type="button" data-image="images/asus-vivobook.jpg" data-caption="ASUS Vivobook 15 X1504VA-NJ1741" aria-label="Ampliar foto do ASUS Vivobook">
+          <img src="images/asus-vivobook.jpg" alt="ASUS Vivobook 15" onerror="if(this.src.includes('images/')) this.src=this.src.replace('images/','');">
+        </button>
+        <div>
+          <div class="name">5. ASUS Vivobook 15</div>
+          <div class="sub">X1504VA-NJ1741</div>
+          <div class="mini-specs">
+            <span>Core i5</span><span>8 GB RAM</span><span>512 GB SSD</span><span>Full HD</span>
+          </div>
+          <p class="reason">Não é ruim, mas por quase R$ 3.900 não compensa quando o Dell é mais barato, melhor e já vem com Windows.</p>
+          <div class="labels">
+            <span class="label meh">Melhor esperar promoção</span>
+          </div>
+        </div>
+        <div class="right">
+          <span class="price">R$ 3.863</span>
+          <span class="store">Mercado Livre no Pix<br>vem com Linux</span>
+        </div>
+      </article>
+
+      <!-- 6. Lenovo IdeaPad 1 -->
+      <article class="item">
+        <button class="picture" type="button" data-image="images/lenovo.webp" data-caption="Lenovo IdeaPad 1" aria-label="Ampliar foto do Lenovo IdeaPad">
+          <img src="images/lenovo.webp" alt="Lenovo IdeaPad 1" onerror="if(this.src.includes('images/')) this.src=this.src.replace('images/','');">
+        </button>
+        <div>
+          <div class="name">6. Lenovo IdeaPad 1</div>
+          <div class="sub">Ryzen 5 7520U</div>
+          <div class="mini-specs">
+            <span>Ryzen 5</span><span>8 GB RAM</span><span>256 GB SSD</span><span>Tela HD</span>
+          </div>
+          <p class="reason">A tela é de baixa resolução (nem é Full HD) e a memória vem toda soldada sem chance de upgrade. Evitar.</p>
+          <div class="labels">
+            <span class="label bad">Evitar</span>
+          </div>
+        </div>
+        <div class="right">
+          <span class="price">R$ 3.599</span>
+          <span class="store">Mercado Livre no Pix<br>vem com Linux</span>
+        </div>
+      </article>
+
+    </section>
+
+    <!-- Secao Detalhada Presente vs Futuro -->
+    <section class="compare-section" aria-label="Comparativo Presente versus Futuro">
+      <h2 class="compare-title">Presente ou Futuro: qual escolher?</h2>
+      <p class="compare-intro">Entenda a diferença real entre escolher para o momento atual ou investir pensando nos próximos anos:</p>
+      
+      <div class="compare-grid">
+        <!-- Card Presente -->
+        <div class="compare-card present-card">
+          <div class="compare-header">
+            <div>
+              <span class="compare-badge present">Melhor para o Presente</span>
+              <h3>Acer Aspire 5</h3>
+            </div>
+            <div class="compare-price">R$ 3.039</div>
+          </div>
+          <p class="compare-tagline"><strong>Ideal para quem quer gastar menos agora e ter uma ótima experiência hoje:</strong></p>
+          <ul class="compare-bullets">
+            <li><strong>Mais econômico:</strong> Custa cerca de R$ 450 a R$ 800 a menos que as outras opções recomendadas.</li>
+            <li><strong>Tela IPS superior:</strong> É a melhor tela para ver vídeos, maratonar séries e estudar sem cansar a visão, com cores fiéis e ótimos ângulos de visualização.</li>
+            <li><strong>Rápido para o dia a dia:</strong> O Ryzen 5 tem 6 núcleos e sobra para estudos, navegação com dezenas de abas e trabalho leve.</li>
+            <li><strong>Ponto de atenção:</strong> Tem 4 GB de memória soldados na placa (o que limita grandes expansões) e vem com Linux (alguém precisa instalar o Windows).</li>
+          </ul>
+        </div>
+
+        <!-- Card Futuro -->
+        <div class="compare-card future-card">
+          <div class="compare-header">
+            <div>
+              <span class="compare-badge future">Melhor para o Futuro</span>
+              <h3>Dell Inspiron 15</h3>
+            </div>
+            <div class="compare-price">R$ 3.496</div>
+          </div>
+          <p class="compare-tagline"><strong>Ideal para quem quer um notebook que dure muitos anos sem ficar lento:</strong></p>
+          <ul class="compare-bullets">
+            <li><strong>Peças de última geração:</strong> Processador Intel Core i5 de 13ª geração (10 núcleos) e memória <strong>DDR5</strong> (mais moderna e veloz que a DDR4).</li>
+            <li><strong>Zero memória soldada:</strong> Conta com <strong>2 slots de memória livres</strong>. Daqui a 3 ou 5 anos, se os programas ficarem mais pesados, é só trocar os pentes e colocar até 32 GB de RAM facilmente.</li>
+            <li><strong>Gráficos melhores com upgrade:</strong> Ao colocar o 2º pente de RAM no futuro, a placa gráfica vira <em>Intel Iris Xe</em>, dobrando o desempenho visual.</li>
+            <li><strong>Tela de 120 Hz:</strong> Mais fluida para rolagem e conforto visual.</li>
+            <li><strong>Zero dor de cabeça:</strong> Já vem com <strong>Windows 11 oficial</strong> de fábrica (ótimo inclusive se for dar de presente para já ligar e usar).</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <p class="extra"><strong>Coisa importante:</strong> “Vem com Linux” quer dizer que alguém precisa instalar o Windows depois. O Dell e o Samsung já vêm com Windows pronto. Antes de comprar, confere o preço e o frete, porque eles podem mudar.</p>
+    <footer>Lista feita para facilitar a escolha. Clique nas fotos se quiser ver maior.</footer>
+  </main>
+
+  <!-- Modal de Zoom da Imagem -->
+  <dialog class="image-modal" id="image-modal" aria-labelledby="image-caption">
+    <form method="dialog"><button type="submit">Fechar ×</button></form>
+    <img id="modal-image" src="" alt="">
+    <p id="image-caption"></p>
+  </dialog>
+
+  <script>
+    const modal = document.querySelector('#image-modal');
+    const img = document.querySelector('#modal-image');
+    const caption = document.querySelector('#image-caption');
+    
+    document.querySelectorAll('[data-image]').forEach(button => {
+      button.addEventListener('click', () => {
+        const thumb = button.querySelector('img');
+        img.src = thumb ? thumb.src : button.dataset.image;
+        img.alt = thumb ? thumb.alt : button.dataset.caption;
+        caption.textContent = button.dataset.caption;
+        modal.showModal();
+      });
+    });
+    
+    modal.addEventListener('click', e => {
+      if (e.target === modal) modal.close();
+    });
+  </script>
+</body>
+</html>
